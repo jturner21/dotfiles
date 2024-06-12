@@ -1,0 +1,10 @@
+
+opacity: .9
+
+decorations: none
+shell:
+  program: /bin/zsh
+  args:
+  - -l 
+  - -c 
+  - "zellij attach"

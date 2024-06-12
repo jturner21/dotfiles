@@ -1,0 +1,10 @@
+
+[font]
+size = 10
+
+[window]
+opacity = 0.77
+blur = true
+decorations = "None"
+
+
