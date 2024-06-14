@@ -19,7 +19,7 @@ bindsym $mod+Return exec i3-sensible-terminal
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -show run
+bindsym $mod+d exec --no-startup-id ~/.config/rofi/launchers/type-6/launcher.sh -show run
 
 # change focus
 bindsym $mod+j focus left
@@ -165,6 +165,9 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
+# Open Music Controls
+bindsym $mod+Shift+m exec "~/.config/rofi/applets/bin/mpd.sh"
+
 # Set shut down, restart and locking features
 bindsym $mod+0 mode "$mode_system"
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
@@ -205,16 +208,21 @@ mode "resize" {
         bindsym Return mode "default"
         bindsym Escape mode "default"
 }
-
+#03293A
 # Autostart applications
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec --no-startup-id nitrogen --restore; sleep 1;
+exec --no-startup-id picom --config ~/.config/picom/picom.conf
 exec --no-startup-id nm-applet
 # exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
+exec --no-startup-id /usr/local/bin/volume_knob.sh
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
-exec_always --no-startup-id $HOME/.config/polybar/i3wmthemer_bar_launch.sh
+exec_always --no-startup-id $HOME/.polybar/i3wmthemer_bar_launch.sh
+exec --no-startup-id lxpolkit
+
+
 
 # Theme colors
 client.focused #b0c4bb #2f2f38 #b0c4bb #81a2be #81a2be
@@ -226,10 +234,11 @@ client.placeholder #b0c4bb #2f2f38 #b0c4bb #688486 #688486
 client.background #2f2f38
 
 # Gaps
-gaps inner 10
+gaps inner 40
 gaps outer -4
 
-smart_gaps on
+smart_gaps off
+
 
 # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
 set $mode_gaps Gaps: (o) outer, (i) inner
@@ -271,6 +280,9 @@ mode "$mode_gaps_outer" {
 # set power-manager and volume control
 exec --no-startup-id mate-power-manager
 
+#Start volume knob control Manager
+exec --no-startup-id /usr/local/bin/volume_knob.sh
+
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer -c 0 -q set Master 2dB+ unmute
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer -c 0 -q set Master 2db- unmute
 bindsym XF86AudioMute exec --no-startup-id amixer -q set Master toggle
@@ -281,12 +293,12 @@ bindsym XF86TouchpadOff exec --no-startup-id synclient Touchpadoff=1
 
 exec --no-startup-id qvm-start-gui --all --watch
 
-bindsym $mod+Shift+f exec --no-startup-id copyq show
 
 for_window [instance="copyq"] floating enable
 for_window [instance="copyq"] resize set 1000 600
 for_window [instance="copyq"] border pixel 5
+for_window [instance="flameshot"] floating enable
 
 exec copyq
 
-bindsym $mod+Shit+s exec /usr/bin/flameshot
+bindsym $mod+Shift+f exec /usr/bin/flameshot
